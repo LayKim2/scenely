@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import '../config/api_config.dart';
 import '../services/api_service.dart';
 import '../services/video_service.dart';
 import '../widgets/progress_indicator.dart';
@@ -14,7 +15,7 @@ class VideoDetailScreen extends StatefulWidget {
 }
 
 class _VideoDetailScreenState extends State<VideoDetailScreen> {
-  final ApiService _apiService = ApiService(baseUrl: 'YOUR_SERVER_URL');
+  final ApiService _apiService = ApiService(baseUrl: apiBaseUrl);
   final VideoService _videoService = VideoService();
   String? _jobId;
   Video? _video;

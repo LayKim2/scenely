@@ -10,6 +10,22 @@ class ApiService {
 
   ApiService({required this.baseUrl}) : _client = http.Client();
 
+  /// 카카오 인증 코드로 로그인
+  Future<AuthResponse> postAuthKakao(String code) async {
+    final response = await _client.post(
+      Uri.parse('$baseUrl/auth/kakao'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'code': code}),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return AuthResponse.fromJson(data);
+    } else {
+      throw Exception('Failed to login: ${response.statusCode}');
+    }
+  }
+
   // Job 생성
   Future<String> createJob({
     String? youtubeUrl,
@@ -119,6 +135,45 @@ class JobResult {
           ? StudyContent.fromJson(
               json['studyContent'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// /auth/kakao 응답
+class AuthResponse {
+  final String accessToken;
+  final AuthUser user;
+
+  AuthResponse({required this.accessToken, required this.user});
+
+  factory AuthResponse.fromJson(Map<String, dynamic> json) {
+    return AuthResponse(
+      accessToken: json['accessToken'] as String,
+      user: AuthUser.fromJson(json['user'] as Map<String, dynamic>),
+    );
+  }
+}
+
+/// 인증된 사용자 정보
+class AuthUser {
+  final String id;
+  final String? email;
+  final String? nickname;
+  final String? profileImage;
+
+  AuthUser({
+    required this.id,
+    this.email,
+    this.nickname,
+    this.profileImage,
+  });
+
+  factory AuthUser.fromJson(Map<String, dynamic> json) {
+    return AuthUser(
+      id: json['id'] as String,
+      email: json['email'] as String?,
+      nickname: json['nickname'] as String?,
+      profileImage: json['profileImage'] as String?,
     );
   }
 }

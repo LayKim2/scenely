@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import '../config/api_config.dart';
 import '../widgets/youtube_permission_checkbox.dart';
 import '../services/api_service.dart';
 
@@ -13,7 +14,7 @@ class VideoInputScreen extends StatefulWidget {
 
 class _VideoInputScreenState extends State<VideoInputScreen> {
   final TextEditingController _urlController = TextEditingController();
-  final ApiService _apiService = ApiService(baseUrl: 'YOUR_SERVER_URL');
+  final ApiService _apiService = ApiService(baseUrl: apiBaseUrl);
   bool _youtubePermissionChecked = false;
   bool _isUploading = false;
   String? _selectedFilePath;

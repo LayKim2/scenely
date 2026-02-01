@@ -44,11 +44,6 @@ class SpeechService {
         listenFor: const Duration(seconds: 30),
         pauseFor: const Duration(seconds: 3),
         cancelOnError: true,
-        onStatus: (status) {
-          if (status == 'done' || status == 'notListening') {
-            _isListening = false;
-          }
-        },
       );
     }
   }

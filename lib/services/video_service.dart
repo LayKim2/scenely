@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:video_player/video_player.dart';
 import '../models/video.dart';
 import '../models/video_segment.dart';
@@ -16,7 +17,7 @@ class VideoService {
 
   Future<void> initializeLocalVideo(String filePath) async {
     await dispose();
-    _controller = VideoPlayerController.file(Uri.file(filePath));
+    _controller = VideoPlayerController.file(File(filePath));
     await _controller!.initialize();
   }
 
